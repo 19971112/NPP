@@ -9,6 +9,7 @@ cd ${PBS_O_WORKDIR}
 FASTQ='fastq'
 N_THREADS='40'
 METADATA='metadata.txt'
+DATABASE='gg-13-8-99-nb-classifier.qza'
 
 # FASTQファイルのインポート
 qiime tools import \
@@ -34,6 +35,30 @@ qiime dada2 denoise-paired \
 --o-table table.qza \
 --o-representative-sequences rep-seqs.qza \
 --o-denoising-stats stats-dada2.qza
+
+qiime metadata tabulate \
+--m-input-file stats-dada2.qza \
+--o-visualization stats-dada2.qzv
+
+# Feature tableとFeatureDataの集計
+qiime feature-table summarize \
+--i-table table.qza \
+--o-visualization table.qzv \
+--m-sample-metadata-file $METADATA
+
+qiime feature-table tabulate-seqs \
+--i-data rep-seqs.qza \
+--o-visualization rep-seqs.qzv
+
+
+# 分子系統樹の計算
+qiime phylogeny align-to-tree-mafft-fasttree \
+--i-sequences rep-seqs.qza \
+--o-alignment aligned-rep-seqs.qza \
+--o-masked-alignment masked-aligned-rep-seqs.qza \
+--o-tree unrooted-tree.qza \
+--o-rooted-tree rooted-tree.qza
+
 
 # α多様性とβ多様性の解析
 qiime diversity core-metrics-phylogenetic \
@@ -82,10 +107,11 @@ qiime diversity alpha-rarefaction \
 --m-metadata-file $METADATA \
 --o-visualization alpha-rarefaction.qzv
 
+
 # 系統解析
 qiime feature-classifier classify-sklearn \
---p-n-jobs -40 \
---i-classifier gg-13-8-99-nb-classifier.qza \
+--p-n-jobs -$N_THREADS \
+--i-classifier $DATABASE \
 --i-reads rep-seqs.qza \
 --o-classification taxonomy.qza
 
@@ -96,13 +122,13 @@ qiime metadata tabulate \
 qiime taxa barplot \
 --i-table table.qza \
 --i-taxonomy taxonomy.qza \
---m-metadata-file metadata.txt \
+--m-metadata-file $METADATA \
 --o-visualization taxa-bar-plots.qzv
 
 qiime taxa barplot \
 --i-table table.qza \
 --i-taxonomy taxonomy.qza \
---m-metadata-file metadata.txt \
+--m-metadata-file $METADATA \
 --o-visualization taxa-bar-plots.qzv
 
 
@@ -115,7 +141,7 @@ qiime taxa collapse \
 
 qiime feature-table heatmap \
 --i-table table-l5.qza \
---m-metadata-file metadata.txt \
+--m-metadata-file $METADATA \
 --m-metadata-column group \
 --o-visualization heatmap_l5_group.qzv
 
@@ -123,7 +149,7 @@ qiime feature-table heatmap \
 # 変動菌種の検出
 qiime feature-table filter-samples \
 --i-table table.qza \
---m-metadata-file metadata.txt \
+--m-metadata-file $METADATA \
 --p-where "host_genotype='ob'" \
 --o-filtered-table table_ob.qza
 
@@ -139,7 +165,7 @@ qiime composition add-pseudocount \
 
 qiime composition ancom \
 --i-table comp_table_ob_l5.qza \
---m-metadata-file metadata.txt \
+--m-metadata-file $METADATA \
 --m-metadata-column host_diet \
 --o-visualization ancom_table_ob_l5_diet.qzv
 
