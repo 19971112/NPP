@@ -125,12 +125,6 @@ qiime taxa barplot \
 --m-metadata-file $METADATA \
 --o-visualization taxa-bar-plots.qzv
 
-qiime taxa barplot \
---i-table table.qza \
---i-taxonomy taxonomy.qza \
---m-metadata-file $METADATA \
---o-visualization taxa-bar-plots.qzv
-
 
 # ヒートマップの作図
 qiime taxa collapse \
