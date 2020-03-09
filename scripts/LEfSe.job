@@ -1,0 +1,24 @@
+#PBS -q small
+#PBS -l ncpus=40
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+qiime taxa collapse \
+  --i-table table.qza \
+  --i-taxonomy taxonomy.qza \
+  --p-level 6 \
+  --o-collapsed-table collapsed_table.qza
+
+  qiime feature-table relative-frequency \
+    --i-table collapsed_table.qza \
+    --o-relative-frequency-table relative-collapsed_table.qza
+
+
+  qiime tools export \
+    --input-path relative-collapsed_table.qza \
+    --output-path exported-feature-table
+
+  cd exported-feature-table/
+
+  biom convert -i feature-table.biom -o table.from_biom_w_taxonomy.txt --to-tsv --header-key taxonomy
