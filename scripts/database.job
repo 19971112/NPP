@@ -1,0 +1,28 @@
+#PBS -q small
+#PBS -l ncpus=40
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+
+qiime tools import \
+  --type 'FeatureData[Sequence]' \
+  --input-path database-seqs.fasta \
+  --output-path database-seqs.qza
+  
+  qiime tools import \
+  --type 'FeatureData[Taxonomy]' \
+  --source-format HeaderlessTSVTaxonomyFormat \
+  --input-path taxonomy.txt \
+  --output-path ref-taxonomy.qza
+  
+  qiime feature-classifier extract-reads \
+  --i-sequences database-seqs.qza \
+  --p-f-primer XXXXXXXXXXXXXXXX \
+  --p-r-primer XXXXXXXXXXXXXXXX \
+    --o-reads ref-seqs.qza
+    
+qiime feature-classifier fit-classifier-naive-bayes \
+  --i-reference-reads ref-seqs.qza \
+  --i-reference-taxonomy ref-taxonomy.qza \
+  --o-classifier classifier.qza
