@@ -13,9 +13,10 @@ DATABASE='gg-13-8-99-nb-classifier.qza'
 
 # FASTQファイルのインポート
 qiime tools import \
---type EMPSingleEndSequences \
---input-path $FASTQ \
---output-path demux.qza
+  --type 'SampleData[SequencesWithQuality]' \
+  --input-path $FASTQ \
+  --source-format CasavaOneEightSingleLanePerSampleDirFmt \
+  --output-path demux.qza
 
 qiime demux summarize \
 --i-data demux.qza \
