@@ -15,7 +15,7 @@ DATABASE='gg-13-8-99-nb-classifier.qza'
 qiime tools import \
   --type 'SampleData[SequencesWithQuality]' \
   --input-path $FASTQ \
-  --source-format CasavaOneEightSingleLanePerSampleDirFmt \
+  --input-format CasavaOneEightSingleLanePerSampleDirFmt \
   --output-path demux.qza
 
 qiime demux summarize \
