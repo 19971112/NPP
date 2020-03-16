@@ -1,0 +1,23 @@
+#PBS -q small
+#PBS -l ncpus=40
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+# ファイルパスの設定
+
+FASTQ='fastq'
+N_THREADS='40'
+METADATA='metadata.txt'
+DATABASE='gg-13-8-99-nb-classifier.qza'
+
+# FASTQファイルのインポート
+qiime tools import \
+--type 'SampleData[PairedEndSequencesWithQuality]' \
+--input-path $FASTQ \
+--input-format CasavaOneEightSingleLanePerSampleDirFmt \
+--output-path demux.qza
+
+qiime demux summarize \
+--i-data demux.qza \
+--o-visualization demux.qzv
