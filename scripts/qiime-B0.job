@@ -15,7 +15,6 @@ DATABASE='gg-13-8-99-nb-classifier.qza'
 qiime tools import \
 --type EMPSingleEndSequences \
 --input-path $FASTQ \
---input-format CasavaOneEightSingleLanePerSampleDirFmt \
 --output-path demux.qza
 
 qiime demux summarize \
