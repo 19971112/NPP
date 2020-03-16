@@ -1,0 +1,9 @@
+#PBS -q small
+#PBS -l ncpus=1
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+
+mkdir reports
+fastqc --nogroup -o ./reports ../fastq/*.fastq
