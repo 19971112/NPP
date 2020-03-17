@@ -1,5 +1,5 @@
 #PBS -q small
-#PBS -l ncpus=40
+#PBS -l ncpus=48
 #PBS -V
 
 cd ${PBS_O_WORKDIR}
@@ -7,7 +7,7 @@ cd ${PBS_O_WORKDIR}
 # ファイルパスの設定
 
 FASTQ='fastq'
-N_THREADS='40'
+N_THREADS='48'
 METADATA='metadata.txt'
 DATABASE='gg-13-8-99-nb-classifier.qza'
 
