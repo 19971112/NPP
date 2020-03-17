@@ -27,7 +27,7 @@ qiime demux summarize \
 qiime dada2 denoise-paired \
 --verbose \
 --p-n-threads $N_THREADS \
---p-trim-left 0 \
+--p-trim-left 17 \
 --p-trunc-len 243 \
 --i-demultiplexed-seqs demux.qza \
 --o-table table.qza \
