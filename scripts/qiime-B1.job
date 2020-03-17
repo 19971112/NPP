@@ -1,4 +1,4 @@
-#PBS -q small
+#PBS -q smpm
 #PBS -l ncpus=48
 #PBS -V
 
