@@ -1,5 +1,5 @@
 #PBS -q smpm
-#PBS -l ncpus=48
+#PBS -l ncpus=72
 #PBS -V
 
 cd ${PBS_O_WORKDIR}
@@ -7,7 +7,7 @@ cd ${PBS_O_WORKDIR}
 # ファイルパスの設定
 
 FASTQ='fastq'
-N_THREADS='48'
+N_THREADS='72'
 METADATA='metadata.txt'
 DATABASE='gg-13-8-99-nb-classifier.qza'
 
@@ -24,15 +24,15 @@ qiime demux summarize \
 
 
 # シーケンスQCとFeature tableの構築
-qiime dada2 denoise-paired \
---verbose \
---p-n-threads $N_THREADS \
+qiime dada2 denoise-single \
+--p-n-threads 40 \
 --p-trim-left 17 \
 --p-trunc-len 243 \
 --i-demultiplexed-seqs demux.qza \
 --o-table table.qza \
 --o-representative-sequences rep-seqs.qza \
 --o-denoising-stats stats-dada2.qza
+
 
 qiime metadata tabulate \
 --m-input-file stats-dada2.qza \
