@@ -1,0 +1,44 @@
+#PBS -q smpm
+#PBS -l ncpus=40
+#PBS -V
+#PBS -l mem=988G
+
+cd ${PBS_O_WORKDIR}
+
+# ファイルパスの設定
+
+FASTQ='fastq'
+N_THREADS='40'
+METADATA='metadata.txt'
+DATABASE='SILVA-138-SSURef-full-length-classifier.qza'
+
+
+qiime dada2 denoise-single \
+--p-n-threads $N_THREADS \
+--p-trim-left 17 \
+--p-trunc-len 243 \
+--i-demultiplexed-seqs demux.qza \
+--o-table table.qza \
+--o-representative-sequences rep-seqs.qza \
+--o-denoising-stats stats-dada2.qza
+
+qiime metadata tabulate \
+--m-input-file stats-dada2.qza \
+--o-visualization stats-dada2.qzv
+--i-sequences rep-seqs.qza \
+--o-alignment aligned-rep-seqs.qza \
+--o-masked-alignment masked-aligned-rep-seqs.qza \
+--o-tree unrooted-tree.qza \
+--o-rooted-tree rooted-tree.qza
+
+
+# Feature tableとFeatureDataの集計
+qiime feature-table summarize \
+--i-table table.qza \
+--o-visualization table.qzv \
+--m-sample-metadata-file $METADATA
+
+qiime feature-table tabulate-seqs \
+--i-data rep-seqs.qza \
+--o-visualization rep-seqs.qzv
+
