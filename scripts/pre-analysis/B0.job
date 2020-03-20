@@ -1,7 +1,7 @@
-#PBS -q smpm
-#PBS -l ncpus=40
+#PBS -q small
+#PBS -l ncpus=1
 #PBS -V
-#PBS -l mem=988G
+#PBS -l mem=96G
 
 cd ${PBS_O_WORKDIR}
 
