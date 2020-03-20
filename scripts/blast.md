@@ -3,7 +3,7 @@
 
 ```
 DB=/bio/db/fasta/nt/nt
-QUERY=/home/t16965tw/github/NPP/analysis/2020-03-20/test.fna
+QUERY=/home/t16965tw/github/NPP/analysis/2020-03-20/blast/sequences.fasta
 PROGRAM=blastn
 
 DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
