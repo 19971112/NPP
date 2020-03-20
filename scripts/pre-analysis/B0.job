@@ -1,0 +1,22 @@
+#PBS -q smpm
+#PBS -l ncpus=40
+#PBS -V
+#PBS -l mem=988G
+
+cd ${PBS_O_WORKDIR}
+
+# ファイルパスの設定
+
+FASTQ='fastq'
+N_THREADS='40'
+
+# FASTQファイルのインポート
+qiime tools import \
+  --type 'SampleData[SequencesWithQuality]' \
+  --input-path $FASTQ \
+  --input-format CasavaOneEightSingleLanePerSampleDirFmt \
+  --output-path demux.qza
+
+qiime demux summarize \
+--i-data demux.qza \
+--o-visualization demux.qzv
