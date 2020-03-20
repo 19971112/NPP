@@ -25,11 +25,6 @@ qiime dada2 denoise-single \
 qiime metadata tabulate \
 --m-input-file stats-dada2.qza \
 --o-visualization stats-dada2.qzv
---i-sequences rep-seqs.qza \
---o-alignment aligned-rep-seqs.qza \
---o-masked-alignment masked-aligned-rep-seqs.qza \
---o-tree unrooted-tree.qza \
---o-rooted-tree rooted-tree.qza
 
 
 # Feature tableとFeatureDataの集計
