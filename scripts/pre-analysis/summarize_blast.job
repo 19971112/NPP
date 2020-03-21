@@ -1,0 +1,27 @@
+#PBS -q small
+#PBS -l ncpus=1
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+
+DB=/bio/db/fasta/nt/nt
+QUERY=/home/t16965tw/github/NPP/analysis/2020-03-20/blast/sequences.fasta
+PROGRAM=blastn
+
+
+OUT=$PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta).txt
+cat *.bl > $OUT
+grep "^>" $QUERY | perl -pe 's/(>(\S+) (.+))/$2\t$1/;' | sort > $QUERY-header
+cp $OUT $QUERY-header ..
+cd ..
+
+# Extracting data from BLAST databases with _blastdbcmd_
+SEQ=$PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta).fasta
+grep -v '#' $OUT | awk '{print $2}' | sort -u | blastdbcmd -db $DB -entry_batch - > $SEQ
+
+# Create BLAST output with annotation
+echo; echo $OUT; echo $SEQ
+sort -k2,2 $OUT > $OUT-sorted
+grep "^>" $SEQ | perl -pe 's/(>(\S+) (.+))/$2\t$1/;' > $SEQ-header
+join -1 2 -2 1 -t "$(printf '\011')" $OUT-sorted $SEQ-header | sort -k2,2 > file_join_1.txt
