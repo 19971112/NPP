@@ -116,3 +116,17 @@ join -1 2 -2 1 -t "$(printf '\011')" file_join_1.txt $QUERY-header > file_join_2
 echo -e "query id\tsubject id\t% identity\talignment length\tmismatches\tgap opens\tq. start\tq. end\ts. start\ts. end\tevalue\tbit score\tsubject\tquery" > $PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta)-annotation.txt
 cat file_join_1.txt | perl -pe 's/(UniRef50|UniRef90|UniRef100)_//g;' >> $PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta)-annotation.txt
 ```
+
+# M
+
+DB=/home/t16965tw/data/blastDB/SILVA_138_SSURef_NR99_tax_silva/SILVA_138_SSURef_NR99_tax_silva.fasta
+QUERY=/home/t16965tw/github/NPP/analysis/2020-03-24/sequences.fasta
+PROGRAM=blastn
+
+DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
+
+mkdir $DIR; cd $DIR
+perl /home/t16965tw/scripts/tom/q_blast_2020-03-21.pl $QUERY $DB -program $PROGRAM -evalue 5 -max_target_seqs 1 -outfmt 6 -num_threads 1 -nseq 20
+
+for i in *.sh; do qsub $i; done
+qstat
