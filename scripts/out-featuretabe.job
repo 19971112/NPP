@@ -7,3 +7,6 @@ cd ${PBS_O_WORKDIR}
 qiime tools export \
   --input-path table.qza \
   --output-path exported-feature-table.biom
+
+cd exported-feature-table.biom/
+biom convert --to-tsv -i feature-table.biom -o table.tsv
