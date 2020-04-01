@@ -1,0 +1,10 @@
+#PBS -q small
+#PBS -l ncpus=1
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+INPUT=''
+OUTPUT=''
+
+porechop -i $INPUT -o $OUTPUT
