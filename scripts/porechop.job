@@ -4,7 +4,7 @@
 
 cd ${PBS_O_WORKDIR}
 
-INPUT=''
-OUTPUT=''
+INPUT='fastq/all.fastq'
+OUTPUT='fastq/trimmed_all.fastq'
 
 porechop -i $INPUT -o $OUTPUT
