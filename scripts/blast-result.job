@@ -1,0 +1,32 @@
+FILE="file_join_1.txt"
+
+# %の閾値を決める
+awk -F "\t" '$3 >=90' file_join_1.txt > 90-$FILE
+
+# IDと生物種を対応させた置換リストを作る
+cut -f2 90-$FILE > f1
+#cut -f3 90-$FILE > f2
+cut -f13 90-$FILE | cut -d " " -f2-100 > f3 #全ての情報
+cut -f13 90-$FILE | cut -d " " -f2-100 | cut -d ";" -f1 > f4
+cut -f13 90-$FILE | cut -d " " -f2-100 | cut -d ";" -f2 > f5
+cut -f13 90-$FILE | cut -d " " -f2-100 | cut -d ";" -f3 > f6
+cut -f13 90-$FILE | cut -d " " -f2-100 | cut -d ";" -f4 > f7
+
+paste f1 f3 > id-annotation_all.txt
+paste f1 f4 > id-annotation_Domain.txt
+paste f1 f5 > id-annotation_Phylum.txt
+paste f1 f6 > id-annotation_Class.txt
+paste f1 f7 > id-annotation_Order.txt
+
+# DBにヒットした列を抜き出す
+echo -n > 90-table.tsv
+sed -n 2p exported-feature-table.biom/table.tsv > 90-table.tsv
+cut -f1 id-annotation.txt | while read FILE; do grep $FILE exported-feature-table.biom/table.tsv >> 90-table.tsv; done
+
+
+# 結果のファイルを置換する
+python ~/scripts/replace.py id-annotation_all.txt 90-table.tsv > blast-result_all.tsv
+python ~/scripts/replace.py id-annotation_Domain.txt 90-table.tsv > blast-result_Domain.tsv
+python ~/scripts/replace.py id-annotation_Phylum.txt 90-table.tsv > blast-result_Phylum.tsv
+python ~/scripts/replace.py id-annotation_Class.txt 90-table.tsv > blast-result_Class.tsv
+python ~/scripts/replace.py id-annotation_Order.txt 90-table.tsv > blast-result_Order.tsv
