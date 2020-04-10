@@ -28,7 +28,7 @@ paste f1 f7 > id-annotation_Order.txt
 # DBにヒットした列を抜き出す
 echo -n > 90-table.tsv
 sed -n 2p exported-feature-table.biom/table.tsv > 90-table.tsv
-cut -f1 id-annotation.txt | while read FILE; do grep $FILE exported-feature-table.biom/table.tsv >> 90-table.tsv; done
+cut -f1 id-annotation_all.txt | while read FILE; do grep $FILE exported-feature-table.biom/table.tsv >> 90-table.tsv; done
 
 
 # 結果のファイルを置換する
