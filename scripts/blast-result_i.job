@@ -9,21 +9,13 @@ FILE="file_join_1.txt"
 
 # IDと生物種を対応させた置換リストを作る
 cut -f2 $FILE > fi1
-cut -f3 $FILE > fif2
 
-cut -f13 $FILE | cut -d " " -f2-100 > f13 #全ての情報
+cut -f3 $FILE > fi2
+cut -f13 $FILE > fi3 
+paste -d "," fi2 fi3 > fi13
 
-paste f1 f3 > id-annotation_all_i.txt
-
-# DBにヒットした列を抜き出す
-echo -n > table_i.tsv
-sed -n 2p exported-feature-table.biom/table.tsv > table_i.tsv
-cut -fi1 id-annotation_all_i.txt | while read FILE; do grep $FILE exported-feature-table.biom/table.tsv >> table_i.tsv; done
+paste fi1 fi13 > id-annotation_all_i.txt
 
 
 # 結果のファイルを置換する
-python ~/scripts/replace.py id-annotation_all.txt 90-table.tsv > blast-result_all.tsv
-python ~/scripts/replace.py id-annotation_Domain.txt 90-table.tsv > blast-result_Domain.tsv
-python ~/scripts/replace.py id-annotation_Phylum.txt 90-table.tsv > blast-result_Phylum.tsv
-python ~/scripts/replace.py id-annotation_Class.txt 90-table.tsv > blast-result_Class.tsv
-python ~/scripts/replace.py id-annotation_Order.txt 90-table.tsv > blast-result_Order.tsv
+python ~/scripts/replace.py id-annotation_all_i.txt exported-feature-table.biom/table.tsv | tr "," "\t" > blast-result_all_i.tsv
