@@ -1,0 +1,125 @@
+  
+#PBS -q smpm
+#PBS -l ncpus=72
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+# ファイルパスの設定
+
+FASTQ='fastq'
+N_THREADS='72'
+METADATA='metadata.txt'
+DATABASE='gg-13-8-99-nb-classifier.qza'
+
+# 分子系統樹の計算
+qiime phylogeny align-to-tree-mafft-fasttree \
+--i-sequences rep-seqs.qza \
+--o-alignment aligned-rep-seqs.qza \
+--o-masked-alignment masked-aligned-rep-seqs.qza \
+--o-tree unrooted-tree.qza \
+--o-rooted-tree rooted-tree.qza
+
+
+# α多様性とβ多様性の解析
+qiime diversity core-metrics-phylogenetic \
+--i-phylogeny rooted-tree.qza \
+--i-table table.qza \
+--p-sampling-depth 43256 \
+--m-metadata-file $METADATA \
+--output-dir core-metrics-results
+
+qiime diversity alpha-group-significance \
+ --i-alpha-diversity core-metrics-results/observed_otus_vector.qza \
+ --m-metadata-file $METADATA \
+ --o-visualization core-metrics-results/observed_otus-group-significance.qzv
+
+
+qiime diversity alpha-group-significance \
+  --i-alpha-diversity core-metrics-results/shannon_vector.qza \
+  --m-metadata-file $METADATA \
+  --o-visualization core-metrics-results/shannon-group-significance.qzv
+
+qiime diversity alpha-group-significance \
+   --i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
+   --m-metadata-file $METADATA \
+   --o-visualization core-metrics-results/faith-pd-group-significance.qzv
+
+qiime diversity beta-group-significance \
+--i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza \
+--m-metadata-file $METADATA \
+--m-metadata-column group \
+--o-visualization core-metrics-results/unweighted-unifrac-group-significance.qzv \
+--p-pairwise
+
+qiime diversity beta-group-significance \
+--i-distance-matrix core-metrics-results/weighted_unifrac_distance_matrix.qza \
+--m-metadata-file $METADATA \
+--m-metadata-column group \
+--o-visualization core-metrics-results/weighted-unifrac-group-significance.qzv \
+--p-pairwise
+
+
+# α-レアファクションカーブの作図
+qiime diversity alpha-rarefaction \
+--i-table table.qza \
+--i-phylogeny rooted-tree.qza \
+--p-max-depth 114279 \
+--m-metadata-file $METADATA \
+--o-visualization alpha-rarefaction.qzv
+
+
+# 系統解析
+qiime feature-classifier classify-sklearn \
+--p-n-jobs -$N_THREADS \
+--i-classifier $DATABASE \
+--i-reads rep-seqs.qza \
+--o-classification taxonomy.qza
+
+qiime metadata tabulate \
+--m-input-file taxonomy.qza \
+--o-visualization taxonomy.qzv
+
+qiime taxa barplot \
+--i-table table.qza \
+--i-taxonomy taxonomy.qza \
+--m-metadata-file $METADATA \
+--o-visualization taxa-bar-plots.qzv
+
+
+# ヒートマップの作図
+qiime taxa collapse \
+--i-table table.qza \
+--i-taxonomy taxonomy.qza \
+--p-level 5 \
+--o-collapsed-table table-l5.qza
+
+qiime feature-table heatmap \
+--i-table table-l5.qza \
+--m-metadata-file $METADATA \
+--m-metadata-column group \
+--o-visualization heatmap_l5_group.qzv
+
+
+# 変動菌種の検出
+qiime feature-table filter-samples \
+--i-table table.qza \
+--m-metadata-file $METADATA \
+--p-where "host_genotype='ob'" \
+--o-filtered-table table_ob.qza
+
+qiime taxa collapse \
+--i-table table_ob.qza \
+--i-taxonomy taxonomy.qza \
+--p-level 5 \
+--o-collapsed-table table_ob_l5.qza
+
+qiime composition add-pseudocount \
+--i-table table_ob_l5.qza \
+--o-composition-table comp_table_ob_l5.qza
+
+qiime composition ancom \
+--i-table comp_table_ob_l5.qza \
+--m-metadata-file $METADATA \
+--m-metadata-column host_diet \
+--o-visualization ancom_table_ob_l5_diet.qzv
