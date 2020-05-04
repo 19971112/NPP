@@ -12,3 +12,11 @@ python extract_alignment_region.py \
   -o SILVA_align_seqs_polyfilt_lenfilt_empv4.fasta \
   -s $forward_position \
   -e $reverse_position
+
+python degap_fasta.py \
+  -i SILVA_align_seqs_polyfilt_lenfilt_empv4.fasta \
+  -o SILVA_empv4.fasta
+  
+vsearch --fastx_filter SILVA_empv4.fasta \
+--fastq_minlen 200 \
+--fastaout SILVA_empv4_emptyrem.fasta
