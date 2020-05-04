@@ -1,0 +1,14 @@
+#PBS -q small
+#PBS -l ncpus=4
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+forward_position=$(sed -n 1p primer_position.txt)
+reverse_position=$(sed -n 2p primer_position.txt)
+
+python extract_alignment_region.py \
+  -i SILVA_align_seqs_polyfilt_lenfilt.fasta \
+  -o SILVA_align_seqs_polyfilt_lenfilt_empv4.fasta \
+  -s $forward_position \
+  -e $reverse_position
