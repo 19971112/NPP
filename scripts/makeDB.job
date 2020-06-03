@@ -1,0 +1,16 @@
+#PBS -q small
+#PBS -l ncpus=1
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+mkdir imported_files	
+# 16S:	
+qiime tools import --type 'FeatureData[Sequence]' \	
+    --input-path raw_files/silva_132_99_16S_exported/dna-sequences.fasta \	
+    --output-path imported_files/silva_132_99_16S.qza	
+    	
+    	
+qiime tools import --type 'FeatureData[Taxonomy]' \	
+  --input-path raw_files/silva_132_99_16S_majority_taxonomy_7_levels_exported/taxonomy.tsv \	
+  --output-path imported_files/silva_132_99_16S_majority_taxonomy_7_levels.qza
