@@ -9,7 +9,7 @@ cd ${PBS_O_WORKDIR}
 FASTQ='fastq'
 N_THREADS='40'
 METADATA='/home/t16965tw/github/NPP/data/metadata'
-DATABASE='/home/t16965tw/data/qiime2_silva'
+DATABASE='/home/t16965tw/data/qiime2_silva/SILVA-v138-515f-806r-classifier.qza'
 
 qiime feature-classifier classify-sklearn \
 --p-n-jobs -$N_THREADS \
