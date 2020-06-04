@@ -1,0 +1,28 @@
+#PBS -q small
+#PBS -l ncpus=40
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+# ファイルパスの設定
+
+FASTQ='fastq'
+N_THREADS='40'
+METADATA='metadata.txt'
+DATABASE='/home/t16965tw/data/qiime2_silva'
+
+qiime feature-classifier classify-sklearn \
+--p-n-jobs -$N_THREADS \
+--i-classifier $DATABASE \
+--i-reads rep-seqs.qza \
+--o-classification taxonomy.qza
+
+qiime metadata tabulate \
+--m-input-file taxonomy.qza \
+--o-visualization taxonomy.qzv
+
+qiime taxa barplot \
+--i-table table.qza \
+--i-taxonomy taxonomy.qza \
+--m-metadata-file $METADATA \
+--o-visualization taxa-bar-plots.qzv
