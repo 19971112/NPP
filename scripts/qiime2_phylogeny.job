@@ -14,7 +14,7 @@ DATABASE='/home/t16965tw/data/qiime2_silva/SILVA-v138-515f-806r-classifier.qza'
 
 $ qiime feature-classifier classify-sklearn \
 --p-n-jobs -1 \
---i-classifier $METADATA \
+--i-classifier $DATABASE \
 --i-reads rep-seqs.qza \
 --o-classification taxonomy.qza
 
@@ -25,5 +25,5 @@ $ qiime metadata tabulate \
 $ qiime taxa barplot \
 --i-table table.qza \
 --i-taxonomy taxonomy.qza \
---m-metadata-file metadata.txt \
+--m-metadata-file $METADATA \
 --o-visualization taxa-bar-plots.qzv
