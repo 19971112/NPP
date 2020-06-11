@@ -11,17 +11,17 @@ N_THREADS='40'
 METADATA='/home/t16965tw/github/NPP/data/metadata/2020-03-16_B_metadata.txt'
 DATABASE='/home/t16965tw/data/qiime2_silva/SILVA-v138-515f-806r-classifier.qza'
 
-$ qiime feature-classifier classify-sklearn \
+qiime feature-classifier classify-sklearn \
 --p-n-jobs -1 \
 --i-classifier $DATABASE \
 --i-reads rep-seqs.qza \
 --o-classification taxonomy.qza
 
-$ qiime metadata tabulate \
+qiime metadata tabulate \
 --m-input-file taxonomy.qza \
 --o-visualization taxonomy.qzv
 
-$ qiime taxa barplot \
+qiime taxa barplot \
 --i-table table.qza \
 --i-taxonomy taxonomy.qza \
 --m-metadata-file $METADATA \
