@@ -1,0 +1,17 @@
+#PBS -q small
+#PBS -l ncpus=1
+#PBS -l mem=95G
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+# FASTQファイルのインポート
+qiime tools import \
+--type 'SampleData[PairedEndSequencesWithQuality]' \
+--input-path $FASTQ \
+--input-format CasavaOneEightSingleLanePerSampleDirFmt \
+--output-path demux.qza
+
+qiime demux summarize \
+--i-data demux.qza \
+--o-visualization demux.qzv
