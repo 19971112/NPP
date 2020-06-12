@@ -1,5 +1,6 @@
 #PBS -q smps
 #PBS -l ncpus=20
+#PBS -l mem=450G
 #PBS -V
 
 cd ${PBS_O_WORKDIR}
