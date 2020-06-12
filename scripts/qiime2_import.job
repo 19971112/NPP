@@ -5,6 +5,9 @@
 
 cd ${PBS_O_WORKDIR}
 
+# ファイルパスの設定
+FASTQ='/home/t16965tw/data/metagenome/202004-06-01-2/fastq'
+
 # FASTQファイルのインポート
 qiime tools import \
 --type 'SampleData[PairedEndSequencesWithQuality]' \
