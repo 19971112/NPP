@@ -6,11 +6,7 @@
 cd ${PBS_O_WORKDIR}
 
 # ファイルパスの設定
-
-FASTQ='fastq'
-N_THREADS='40'
-METADATA='metadata.txt'
-DATABASE='gg-13-8-99-nb-classifier.qza'
+FASTQ='/home/t16965tw/data/metagenome/202004-06-01-2/fastq'
 
 # FASTQファイルのインポート
 qiime tools import \
