@@ -1,0 +1,39 @@
+#PBS -q smps
+#PBS -l ncpus=12
+#PBS -l mem=495G
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+# ファイルパスの設定
+FASTQ='fastq'
+N_THREADS='12'
+METADATA='metadata.txt'
+
+
+# シーケンスQCとFeature tableの構築
+qiime dada2 denoise-paired \
+--verbose \
+--p-n-threads $N_THREADS \
+--p-trim-left-f 21 \
+--p-trim-left-r 20 \
+--p-trunc-len-f 240 \
+--p-trunc-len-r 240 \
+--i-demultiplexed-seqs demux.qza \
+--o-table table.qza \
+--o-representative-sequences rep-seqs.qza \
+--o-denoising-stats stats-dada2.qza
+
+qiime metadata tabulate \
+--m-input-file stats-dada2.qza \
+--o-visualization stats-dada2.qzv
+
+# Feature tableとFeatureDataの集計
+qiime feature-table summarize \
+--i-table table.qza \
+--o-visualization table.qzv \
+--m-sample-metadata-file $METADATA
+
+qiime feature-table tabulate-seqs \
+--i-data rep-seqs.qza \
+--o-visualization rep-seqs.qzv
