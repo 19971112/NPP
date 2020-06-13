@@ -1,0 +1,9 @@
+#PBS -q small
+#PBS -l ncpus=40
+#PBS -l mem=95G
+#PBS -V
+cd ${PBS_O_WORKDIR}
+
+INPUT='20200317_0655.porechop.fastq'
+
+metaphlan2.py  $INPUT --input_type fastaq --nproc 40 > $INPUT_profile.txt
