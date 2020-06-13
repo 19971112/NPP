@@ -1,10 +1,19 @@
 #PBS -q small
-#PBS -l ncpus=1
+#PBS -l ncpus=40
 #PBS -l mem=95G
 #PBS -V
 
 cd ${PBS_O_WORKDIR}
 
 FILEPATH='/home/t16965tw/data/metagenome/20200317_0655-fastq_pass/20200317_0655.fastq'
+N_THREADS='40'
 
-porechop -i $FILEPATH -o $(basename $FILEPATH ".fastq").porechop.fastq
+# アダプターのトリミング
+# porechop -i $FILEPATH -o $(basename $FILEPATH ".fastq").porechop.fastq
+
+# リードのstatisticsの取得
+NanoStat --fastq $(basename $FILEPATH ".fastq").porechop.fastq -t $N_THREADS
+
+# Nanoplotでクオリティとリード長の分布
+NanoPlot --fastq $(basename $FILEPATH ".fastq").porechop.fastq --loglength -t $N_THREADS -o qc_result
+
