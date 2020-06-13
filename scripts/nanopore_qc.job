@@ -15,5 +15,5 @@ N_THREADS='40'
 NanoStat --fastq $(basename $FILEPATH ".fastq").porechop.fastq -t $N_THREADS
 
 # Nanoplotでクオリティとリード長の分布
-NanoPlot --fastq $(basename $FILEPATH ".fastq").porechop.fastq --loglength -t $N_THREADS -o qc_result
+NanoPlot --fastq $(basename $FILEPATH ".fastq").porechop.fastq --loglength -t $N_THREADS -o qc_result -f pdf
 
