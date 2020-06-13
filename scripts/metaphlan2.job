@@ -6,4 +6,4 @@ cd ${PBS_O_WORKDIR}
 
 INPUT='20200317_0655.porechop.fastq'
 
-metaphlan2.py  $INPUT --input_type fastaq --nproc 40 > $INPUT_profile.txt
+metaphlan2.py  $INPUT --input_type fastq --nproc 40 > $INPUT_profile.txt
