@@ -1,0 +1,10 @@
+#PBS -q small
+#PBS -l ncpus=1
+#PBS -l mem=95G
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+FILEPATH='/home/t16965tw/data/metagenome/20200317_0655-fastq_pass/20200317_0655.fastq'
+
+porechop -i $FILEPATH -o $(basename $FILEPATH ".fastq").porechop.fastq
