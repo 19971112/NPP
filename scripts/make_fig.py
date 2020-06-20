@@ -50,7 +50,6 @@ import matplotlib.pyplot as plt
 import matplotlib
 import seaborn as sns
 matplotlib.use('Agg') 
-%matplotlib inline
 
 
 dataset =  pd.read_table('table-tax.txt', header=0)
@@ -96,13 +95,13 @@ for iii in l_columns:
             df_all = pd.concat([up20, under20])
             
             
-            # データセットを100%積み上げ棒グラフように変換
+
             plot_dataset = pd.DataFrame(index = df_all.index)
 
             for col in df_all.columns:
                 plot_dataset[col] = round(100 * df_all[col] / df_all[col].sum(), 1)
             
-            # 積み上げ棒グラフように変換
+
             fig, ax = plt.subplots(figsize=(6.5, 3), dpi=300)
             for i in range(len(plot_dataset)):
                 ax.bar(plot_dataset.columns, 
@@ -119,13 +118,13 @@ for iii in l_columns:
         else:
             df_all = df_oder
             
-             # データセットを100%積み上げ棒グラフように変換
+
             plot_dataset = pd.DataFrame(index = df_all.index)
 
             for col in df_all.columns:
                 plot_dataset[col] = round(100 * df_all[col] / df_all[col].sum(), 1)
             
-            # 積み上げ棒グラフように変換
+
             fig, ax = plt.subplots(figsize=(6.5, 3), dpi=300)
             for i in range(len(plot_dataset)):
                 ax.bar(plot_dataset.columns, 
