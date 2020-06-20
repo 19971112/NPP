@@ -27,3 +27,10 @@ qiime taxa barplot \
 --i-taxonomy taxonomy.qza \
 --m-metadata-file $METADATA \
 --o-visualization taxa-bar-plots.qzv
+
+qiime tools export \
+  --input-path table.qza \
+  --output-path exported-feature-table.biom
+
+cd exported-feature-table.biom/
+biom convert --to-tsv -i feature-table.biom -o table.tsv
