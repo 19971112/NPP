@@ -5,26 +5,26 @@ File2='SILVA_138_Taxonomy.txt'
 File3='table.tsv'
 
 
-# 処理1　類似性が90%以上のものを抽出
+
 df = pd.read_table(File1, header=None)
 df = df[df[2] > 90]
 File4 = df.loc[:,[0,1]]
 File4
 
-# 置換用のテーブル（辞書）の作成 Query-tax
+
 df2 = pd.read_table(File2, header=None)
 File5 = pd.merge(File4, df2, on=0)
 File5 = File5.loc[:,['1_x','1_y']]
 dic = File5.set_index('1_x')['1_y'].to_dict()
 File5
 
-# 存在量のデータを読み込んで，idをtaxに置換する
+
 df3 = pd.read_table(File3, header=0, skiprows=1)
 df3 = df3.replace({'#OTU ID': dic})
 #df3 = df3.replace(dic)
 df3
 
-#表の最終調整
+
 hit_otu = df3[df3['#OTU ID'].str.contains('d__')]
 hit_otu = pd.concat([hit_otu,pd.DataFrame(hit_otu.sum(axis=1),columns=['Total'])],axis=1)
 hit_otu = hit_otu.sort_values(by='Total', ascending=False)
@@ -52,22 +52,22 @@ import seaborn as sns
 matplotlib.use('Agg') 
 %matplotlib inline
 
-# ファイルの読み込み
+
 dataset =  pd.read_table('table-tax.txt', header=0)
 
-#サンプル名のリストを作成する
+
 l_columns = list(dataset.columns)
 l_columns.remove('#OTU ID')
 l_columns.remove('Total')
 
-# 解析するオーダーのリスト
+
 mydict = {"domain":"; p__","phylum":"; c__", "class":"; o__", "order":"; f__", "family":"; g__", "genus":"; s__"}
 list_dic = list(mydict.keys())
 
-#列を抽出する
+
 for iii in l_columns:
     Level_num = 0
-    # 各オーダーのリストを作成する
+
     for ODER in list_dic:
         
         Level_num = (Level_num+ 1)
