@@ -1,0 +1,68 @@
+#PBS -q smps
+#PBS -l ncpus=20
+#PBS -l mem=450G
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+# ファイルパスの設定
+
+FASTQ='fastq'
+N_THREADS='20'
+METADATA='/home/t16965tw/github/NPP/data/metadata/2020-03-16_B_metadata.txt'
+DATABASE='/home/t16965tw/data/qiime2_silva/SILVA-v138-515f-806r-classifier.qza'
+
+# 分子系統樹の計算
+qiime phylogeny align-to-tree-mafft-fasttree \
+--i-sequences rep-seqs.qza \
+--o-alignment aligned-rep-seqs.qza \
+--o-masked-alignment masked-aligned-rep-seqs.qza \
+--o-tree unrooted-tree.qza \
+--o-rooted-tree rooted-tree.qza
+
+# α多様性とβ多様性の解析
+qiime diversity core-metrics-phylogenetic \
+--i-phylogeny rooted-tree.qza \
+--i-table table.qza \
+--p-sampling-depth 43256 \
+--m-metadata-file $METADATA \
+--output-dir core-metrics-results
+
+qiime diversity alpha-group-significance \
+ --i-alpha-diversity core-metrics-results/observed_otus_vector.qza \
+ --m-metadata-file $METADATA \
+ --o-visualization core-metrics-results/observed_otus-group-significance.qzv
+
+
+qiime diversity alpha-group-significance \
+  --i-alpha-diversity core-metrics-results/shannon_vector.qza \
+  --m-metadata-file $METADATA \
+  --o-visualization core-metrics-results/shannon-group-significance.qzv
+
+qiime diversity alpha-group-significance \
+   --i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
+   --m-metadata-file $METADATA \
+   --o-visualization core-metrics-results/faith-pd-group-significance.qzv
+
+qiime diversity beta-group-significance \
+--i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza \
+--m-metadata-file $METADATA \
+--m-metadata-column group \
+--o-visualization core-metrics-results/unweighted-unifrac-group-significance.qzv \
+--p-pairwise
+
+qiime diversity beta-group-significance \
+--i-distance-matrix core-metrics-results/weighted_unifrac_distance_matrix.qza \
+--m-metadata-file $METADATA \
+--m-metadata-column group \
+--o-visualization core-metrics-results/weighted-unifrac-group-significance.qzv \
+--p-pairwise
+
+
+# α-レアファクションカーブの作図
+qiime diversity alpha-rarefaction \
+--i-table table.qza \
+--i-phylogeny rooted-tree.qza \
+--p-max-depth 114279 \
+--m-metadata-file $METADATA \
+--o-visualization alpha-rarefaction.qzv
