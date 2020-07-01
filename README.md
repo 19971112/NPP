@@ -1,5 +1,12 @@
 # NPP
 
+## 環境構築
+```
+# brew 
+# https://qiita.com/thermes/items/926b478ff6e3758ecfea
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+
+```
 
 ### install QIIME2
 ```
