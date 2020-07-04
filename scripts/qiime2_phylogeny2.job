@@ -1,5 +1,5 @@
 #PBS -q smps
-#PBS -l ncpus=20
+#PBS -l ncpus=12
 #PBS -l mem=450G
 #PBS -V
 
@@ -8,7 +8,7 @@ cd ${PBS_O_WORKDIR}
 # ファイルパスの設定
 
 FASTQ='fastq'
-N_THREADS='20'
+N_THREADS='12'
 METADATA='/home/t16965tw/github/NPP/data/metadata/2020-03-16_B_metadata.txt'
 DATABASE='/home/t16965tw/data/qiime2_silva/SILVA-v138-515f-806r-classifier.qza'
 
