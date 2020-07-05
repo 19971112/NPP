@@ -1,0 +1,15 @@
+#PBS -q smps
+#PBS -l ncpus=12
+#PBS -l mem=495G
+#PBS -V
+
+N_CPU=12
+FILE=/home/t16965tw/data/metagenome/illumina_whole/202005-08-01-1/Sequence/NW
+
+
+#humann2 -i $FILE –o out_dir --threads $N_CPU
+#humann2 -i paired.fq.gz –o out_dir --threads $N_CPU --output-format biom
+
+humann2 -i $FILE –o out_dir --threads $N_CPU \
+ --nucleotide-database <path>/<to>/chocophlan \
+ --protein-database <path>/<to>/uniref90
