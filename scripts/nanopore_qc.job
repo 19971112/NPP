@@ -13,7 +13,7 @@ cat *.fastq > all.fastq
 
 
 # アダプターのトリミング
-# porechop -i all.fastq -o all.porechop.fastq
+porechop -i all.fastq -o all.porechop.fastq
 
 # リードのstatisticsの取得
 NanoStat --fastq all.porechop.fastq -t $N_THREADS
