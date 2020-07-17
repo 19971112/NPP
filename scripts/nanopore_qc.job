@@ -21,3 +21,10 @@ NanoStat --fastq all.porechop.fastq -t $N_THREADS
 # Nanoplotでクオリティとリード長の分布
 NanoPlot --fastq all.porechop.fastq --loglength -t $N_THREADS -o qc_result -f pdf
 
+# クオリティフィルタリング
+# 5'末端50-bpのトリミング、平均クオリティ10以下のリードを捨てるクオリティフィルタリング、500bp以下のリードを捨てる
+cat all.porechop.fastq |NanoFilt -q 10 -l 500 --headcrop 75 > all.trimmed.porechop.fastq
+
+# Nanoplotでクオリティとリード長の分布
+NanoPlot --fastq all.trimmed.porechop.fastq --loglength -t $N_THREADS -o qc_result_trimmed -f pdf
+
