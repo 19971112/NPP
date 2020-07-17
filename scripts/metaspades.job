@@ -1,0 +1,12 @@
+#PBS -q small
+#PBS -l ncpus=40
+#PBS -V
+#PBS -l mem=95G
+
+cd ${PBS_O_WORKDIR}
+
+F1='/home/t16965tw/data/metagenome/illumina_whole/202005-08-01-1/Sequence/NW/NW_FDDP202390766-1a_HJVV3DRXX_L1_2.fq.gz'
+F2='/home/t16965tw/data/metagenome/illumina_whole/202005-08-01-1/Sequence/NW/NW_FDDP202390766-1a_HK73YDRXX_L2_2.fq.gz'
+
+metaspades.py -1 pair_R1.fq -2 pair_R2.fq -o metaspades \
+ -t 40 -k auto -m 94
