@@ -1,16 +1,15 @@
 #PBS -q small
-#PBS -l ncpus=40
-#PBS -l mem=95G
+#PBS -l ncpus=1
 #PBS -V
 
 cd ${PBS_O_WORKDIR}
 
 FILEPATH=$1
-N_THREADS='40'
+N_THREADS='1'
 
 # fastqファイルの結合
 
-cat $FILEPATH/*.fastq > all.fastq
+cat *.fastq > all.fastq
 
 
 # アダプターのトリミング
