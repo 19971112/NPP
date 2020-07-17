@@ -5,15 +5,20 @@
 
 cd ${PBS_O_WORKDIR}
 
-FILEPATH='/home/t16965tw/data/metagenome/20200317_0655-fastq_pass/20200317_0655.fastq'
+FILEPATH=$1
 N_THREADS='40'
 
+# fastqファイルの結合
+
+cat $FILEPATH/*.fastq > all.fastq
+
+
 # アダプターのトリミング
-# porechop -i $FILEPATH -o $(basename $FILEPATH ".fastq").porechop.fastq
+# porechop -i all.fastq -o all.porechop.fastq
 
 # リードのstatisticsの取得
-NanoStat --fastq $(basename $FILEPATH ".fastq").porechop.fastq -t $N_THREADS
+NanoStat --fastq all.porechop.fastq -t $N_THREADS
 
 # Nanoplotでクオリティとリード長の分布
-NanoPlot --fastq $(basename $FILEPATH ".fastq").porechop.fastq --loglength -t $N_THREADS -o qc_result -f pdf
+NanoPlot --fastq all.porechop.fastq --loglength -t $N_THREADS -o qc_result -f pdf
 
