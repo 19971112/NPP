@@ -1,0 +1,7 @@
+#PBS -q small
+#PBS -l ncpus=1
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+fastq_pair -t 19288976 NW_FDDP202390766-1a_HJVV3DRXX_L1_2.fq NW_FDDP202390766-1a_HK73YDRXX_L2_2.fq
