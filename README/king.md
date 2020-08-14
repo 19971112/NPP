@@ -1,3 +1,7 @@
+# kingの使い方
+
+三浦くんに教えてもらってこと
+
 ### king
 $ `ssh king`
 ~ 16:46$ `qsub -I[ｱｲ] -l[ｴﾙ] nodes=1:ppn=32`
@@ -30,3 +34,8 @@ $ qdel [ジョブID] or [グループ名]
 `/home/yuki.yoshida/scripts/king_status.sh`
 
 `pbsnodes | grep -e "^k" -e "jobs" | grep -v "status" | less`
+
+
+---
+
+# 
