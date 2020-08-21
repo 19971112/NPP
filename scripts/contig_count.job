@@ -1,6 +1,7 @@
-#PBS -q small
+#PBS -q large
 #PBS -l ncpus=1
 #PBS -V
 
 cd ${PBS_O_WORKDIR}
 
+python /home/t16965tw/github/NPP/scripts/contig_count.job /home/t16965tw/github/NPP/analysis/spades2/metaspades/contigs.fasta > cont.py
