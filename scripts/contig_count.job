@@ -4,4 +4,4 @@
 
 cd ${PBS_O_WORKDIR}
 
-python /home/t16965tw/github/NPP/scripts/contig_count.job /home/t16965tw/github/NPP/analysis/spades2/metaspades/contigs.fasta > cont.py
+python /home/t16965tw/github/NPP/scripts/contig_count.py /home/t16965tw/github/NPP/analysis/spades2/metaspades/contigs.fasta > count.txt
