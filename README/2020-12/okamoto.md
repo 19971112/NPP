@@ -31,7 +31,7 @@ mv *fasta.* db/
 ## tblastnの実行
 
 ```
-DB=/home/t16965tw/github/NPP/analysis/2020-12-21/db
+DB=/home/t16965tw/github/NPP/analysis/2020-12-21/db/contigs.fasta
 QUERY=/home/t16965tw/github/NPP/analysis/2020-12-21/query.fasta
 DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
 mkdir $DIR; cd $DIR
