@@ -34,7 +34,7 @@ mv *fasta.* db/
 DB=/home/t16965tw/github/NPP/analysis/2020-12-21/db/contigs.fasta
 QUERY=/home/t16965tw/github/NPP/analysis/2020-12-21/query.fasta
 DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
-PROGRAM=blastn
+PROGRAM=tblastn
 mkdir $DIR; cd $DIR
 
 perl /home/t16965tw/scripts/tom/q_blast_2020-10-11.pl $QUERY $DB -program $PROGRAM -evalue 1e-05 -max_target_seqs 100 -outfmt 6 -num_threads 1 -nseq 1
