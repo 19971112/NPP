@@ -55,7 +55,7 @@ for i in *.sh; do qsub $i; done
 ```
 
 ```
-DB=/home/t16965tw/data/blastDB/SILVA_138_SSURef_NR99_tax_silva/SILVA_138_SSURef_NR99_tax_silva.fasta
+DB=/home/t16965tw/github/NPP/analysis/2020-12-25/db2/repseq-202002-06-01-2.fasta
 QUERY=/home/t16965tw/github/NPP/analysis/2020-12-25/query.fasta
 PROGRAM=blastn
 DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
