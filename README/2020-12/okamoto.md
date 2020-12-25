@@ -40,3 +40,16 @@ mkdir $DIR; cd $DIR
 perl /home/t16965tw/scripts/tom/q_blast_2020-10-11.pl $QUERY $DB -program $PROGRAM -evalue 1e-05 -max_target_seqs 1 -outfmt 6 -num_threads 1 -nseq 1
 for i in *.sh; do qsub $i; done
 ```
+
+## blastnの実行
+
+```
+DB=/home/t16965tw/github/NPP/analysis/2020-12-25/db/ex.fasta
+QUERY=/home/t16965tw/github/NPP/analysis/2020-12-25/query.fasta
+PROGRAM=blastn
+DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
+mkdir $DIR; cd $DIR
+
+perl /home/t16965tw/github/NPP/scripts/blast/q_blast_2020-10-11.pl $QUERY $DB -program $PROGRAM -evalue 1e-05 -max_target_seqs 1 -outfmt 6 -num_threads 1 -nseq 1
+for i in *.sh; do qsub $i; done
+```
