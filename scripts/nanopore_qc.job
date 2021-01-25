@@ -7,11 +7,6 @@ cd ${PBS_O_WORKDIR}
 FILEPATH=$1
 N_THREADS='1'
 
-# fastqファイルの結合
-
-cat *.fastq > all.fastq
-
-
 # アダプターのトリミング
 porechop -i all.fastq -o all.porechop.fastq
 
