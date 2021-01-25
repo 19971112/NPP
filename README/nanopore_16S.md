@@ -18,8 +18,7 @@ cd ${PBS_O_WORKDIR}
 N_THREADS='10'
 
 # fastqファイルの結合
-
-cat *.fastq > all.fastq
+# cat *.fastq > all.fastq
 
 
 # アダプターのトリミング
