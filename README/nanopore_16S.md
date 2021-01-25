@@ -39,11 +39,17 @@ NanoPlot --fastq all.trimmed.porechop.fastq --loglength -t $N_THREADS -o qc_resu
 
 ```
 
+# fasta形式に変換
+
+```
+awk '(NR - 1) % 4 < 2' all.trimmed.porechop.fastq | sed 's/@/>/' > all.trimmed.porechop.fasta
+```
+
 #### QC済の配列をblastする
 
 ```
 DB=/home/t16965tw/data/blastDB/SILVA_138_SSURef_NR99_tax_silva/SILVA_138_SSURef_NR99_tax_silva.fasta
-QUERY=/home/t16965tw/github/NPP/analysis/2021-01-25/all.trimmed.porechop.fastq
+QUERY=/home/t16965tw/github/NPP/analysis/2021-01-25/all.trimmed.porechop.fasta
 PROGRAM=blastn
 
 DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
@@ -59,7 +65,7 @@ for i in *.sh; do qsub $i; done
 
 ```
 DB=/home/t16965tw/data/blastDB/SILVA_138_SSURef_NR99_tax_silva/SILVA_138_SSURef_NR99_tax_silva.fasta
-QUERY=/home/t16965tw/github/NPP/analysis/2021-01-25/all.trimmed.porechop.fastq
+QUERY=/home/t16965tw/github/NPP/analysis/2021-01-25/all.trimmed.porechop.fasta
 PROGRAM=blastn
 
 OUT=$PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta).txt
