@@ -8,6 +8,7 @@ N_THREADS='1'
 
 
 # pathの設定
+echo $(date "+%Y/%m/%d %H:%M:%S") Start program
 
 ## 解析ディレクトリのホーム
 home_path=$(cd $(dirname $0);pwd)
@@ -35,7 +36,7 @@ cd $PREFIX
 cat $dir_path/*.fastq > $PREFIX.fastq
 
 # サンプルQC
-
+echo $(date "+%Y/%m/%d %H:%M:%S") Start QC
 ## アダプターのトリミング
 porechop -i $PREFIX.fastq -o $PREFIX.porechop.fastq
 
@@ -56,23 +57,22 @@ awk '(NR - 1) % 4 < 2' $PREFIX.trimmed.porechop.fastq | sed 's/@/>/' > $PREFIX.t
 
 
 # リード数の調整
-
+echo $(date "+%Y/%m/%d %H:%M:%S") Start QC
 # 10万配列以上ある場合にはランダムサンプリングする
 L_NUM=$(cat $PREFIX.trimmed.porechop.fasta| awk 'END{print NR}')
 if [ $L_NUM = $fuga ]; then
-  echo "文字列は同じです"
+  echo $(date "+%Y/%m/%d %H:%M:%S") Start Random sampling (sequence > 0.1 M reads)
+  seqkit sample -n 100000 $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop.fasta
 else
-  echo "文字列は違います"
+  $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop.fasta
+  echo $(date "+%Y/%m/%d %H:%M:%S") Numbers of reads is under 100,000
 fi
 
-LNUM=$(cat test| awk 'END{print NR}')
-if [ $LNUM -gt 3 ]; then
-  echo "大きい"
-else
-  echo "小さい"
-fi
+
 
 # blastの一括処理
+echo $(date "+%Y/%m/%d %H:%M:%S") Start qblast
+
 ## qsubファイルの作成
 DB=/home/t16965tw/data/blastDB/SILVA_138_SSURef_NR99_tax_silva/SILVA_138_SSURef_NR99_tax_silva.fasta
 QUERY=$DIR_NAME/$PREFIX/$PREFIX.trimmed.porechop.fasta
@@ -83,4 +83,6 @@ perl /home/t16965tw/scripts/tom/q_blast_2020-10-11.pl $QUERY $DB -program $PROGR
 
 ## qsubの実行
 #for i in *.sh; do qsub $i; done
+
+echo $(date "+%Y/%m/%d %H:%M:%S") Done
 
