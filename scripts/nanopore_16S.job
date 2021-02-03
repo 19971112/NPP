@@ -5,8 +5,8 @@
 cd ${PBS_O_WORKDIR}
 
 N_THREADS='1'
-PATH1=''
-PATH2=''
+PATH1='/home/t16965tw/github/NPP/analysis/2021-02-01'
+PATH2='/home/t16965tw/github/NPP/data/nanopore_16S/BF29'
 
 
 # pathの設定
@@ -14,25 +14,14 @@ echo $(date "+%Y/%m/%d %H:%M:%S") Start program
 
 ## 解析ディレクトリのホーム
 home_path=$PATH1
-echo `$home_path`
 echo $home_path
 
 ## シークエンスデータのパス
 dir_path=$PATH2
-echo `$dir_path`
 echo $dir_path
 
-
-
-# 解析データセットの準備
-
-## 解析ディレクトリの作成
-# DIR_NAME=$(date +%F_%H%M%S)
-# mkdir $DIR_NAME
-# cd $DIR_NAME
-
 ## fastqファイルの結合
-PREFIX=$(basename$dir_path)
+PREFIX=$(basename $dir_path)
 mkdir $PREFIX
 cd $PREFIX
 cat $dir_path/*.fastq > $PREFIX.fastq
