@@ -13,12 +13,12 @@ PATH2=''
 echo $(date "+%Y/%m/%d %H:%M:%S") Start program
 
 ## 解析ディレクトリのホーム
-home_path=$(cd $(dirname $0);pwd)
+home_path=$PATH1
 echo `$home_path`
 echo $home_path
 
 ## シークエンスデータのパス
-dir_path=$1
+dir_path=$PATH2
 echo `$dir_path`
 echo $dir_path
 
