@@ -52,7 +52,7 @@ echo $(date "+%Y/%m/%d %H:%M:%S") Start QC
 # 10万配列以上ある場合にはランダムサンプリングする
 L_NUM=$(cat $PREFIX.trimmed.porechop.fasta| awk 'END{print NR}')
 if [ $L_NUM = $fuga ]; then
-  echo $(date "+%Y/%m/%d %H:%M:%S") "Start Random sampling (sequence > 0.1 M reads)"
+  echo $(date "+%Y/%m/%d %H:%M:%S") Start Random sampling
   seqkit sample -n 100000 $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop.fasta
 else
   $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop.fasta
