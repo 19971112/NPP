@@ -51,11 +51,11 @@ awk '(NR - 1) % 4 < 2' $PREFIX.trimmed.porechop.fastq | sed 's/@/>/' > $PREFIX.t
 echo $(date "+%Y/%m/%d %H:%M:%S") Start QC
 # 10万配列以上ある場合にはランダムサンプリングする
 L_NUM=$(cat $PREFIX.trimmed.porechop.fasta| awk 'END{print NR}')
-if [ $L_NUM = $fuga ]; then
+if [ $L_NUM -ge 400000 ]; then
   echo $(date "+%Y/%m/%d %H:%M:%S") Start Random sampling
-  seqkit sample -n 100000 $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop.fasta
+  seqkit sample -n 100000 $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop_.fasta
 else
-  $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop.fasta
+  cat $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop_.fasta
   echo $(date "+%Y/%m/%d %H:%M:%S") Numbers of reads is under 100,000
 fi
 
@@ -66,7 +66,7 @@ echo $(date "+%Y/%m/%d %H:%M:%S") Start qblast
 
 ## qsubファイルの作成
 DB=/home/t16965tw/data/blastDB/SILVA_138_SSURef_NR99_tax_silva/SILVA_138_SSURef_NR99_tax_silva.fasta
-QUERY=$DIR_NAME/$PREFIX/$PREFIX.trimmed.porechop.fasta
+QUERY=$DIR_NAME/$PREFIX/$PREFIX.trimmed.porechop_.fasta
 PROGRAM=blastn
 DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
 mkdir $DIR; cd $DIR
