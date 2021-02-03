@@ -60,7 +60,6 @@ else
 fi
 
 
-
 # blastの一括処理
 echo $(date "+%Y/%m/%d %H:%M:%S") Start qblast
 
