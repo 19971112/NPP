@@ -1,0 +1,41 @@
+#PBS -q medium
+#PBS -l ncpus=1
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+N_THREADS='1'
+PATH1='/home/t16965tw/github/NPP/analysis/2021-02-01'
+PATH2='/home/t16965tw/github/NPP/data/nanopore_16S/BF29'
+
+home_path=$PATH1
+dir_path=$PATH2
+PREFIX=$(basename $dir_path)
+
+cd $PREFIX
+
+DB=/home/t16965tw/data/blastDB/SILVA_138_SSURef_NR99_tax_silva/SILVA_138_SSURef_NR99_tax_silva.fasta
+QUERY=$home_path/$PREFIX/$PREFIX.trimmed.porechop_.fasta
+PROGRAM=blastn
+DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
+
+cd $DIR
+
+# blastが終了したら
+OUT=$PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta).txt
+cat *.bl > $OUT
+grep "^>" $QUERY | perl -pe 's/(>(\S+) (.+))/$2\t$1/;' | sort > $QUERY-header
+cp $OUT $QUERY-header ..
+cd ..
+
+# Extracting data from BLAST databases with _blastdbcmd_
+SEQ=$PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta).fasta
+grep -v '#' $OUT | awk '{print $2}' | sort -u | blastdbcmd -db $DB -entry_batch - > $SEQ
+
+# Create BLAST output with annotation
+echo; echo $OUT; echo $SEQ
+sort -k2,2 $OUT > $OUT-sorted
+grep "^>" $SEQ | perl -pe 's/(>(\S+) (.+))/$2\t$1/;' > $SEQ-header
+join -1 2 -2 1 -t "$(printf '\011')" $OUT-sorted $SEQ-header | sort -k2,2 > file_join_1.txt
+
+
