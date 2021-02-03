@@ -5,6 +5,8 @@
 cd ${PBS_O_WORKDIR}
 
 N_THREADS='1'
+PATH1=''
+PATH2=''
 
 
 # pathの設定
