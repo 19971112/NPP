@@ -1,23 +1,29 @@
-#import sys
+import sys
 
-f1 = open ("countrypart.txt","r")
-f2 = open ("abbreviation.txt","r")
+LIST = sys.argv[1]
+IN = sys.argv[2]
 
-dic = {}
+mydict = {"BJBU01000001-BJBU01000045.txt":"Geobacter_sp._SbR"}
+mydict["BJBV01000001-BJBV01000076.txt"] = "Shewanella_sp._M-Br"
 
 # 読み込んだリストのファイルを一行づづ辞書に登録
-
-line = f1.readline()
+f = open(LIST)
+line = f.readline()
 while line:
-    key = line[:line.find(",")]
-    value = line[line.find(","):].lstrip(",").strip("\n")
-    dic[key] = value
-    line = f1.readline()
-f1.close()
+    fname = line[:line.find("\t")]
+    difinition = line[line.find("\t"):]
+    difinition = difinition.lstrip("\t")
+    difinition = difinition.strip("\n")
+    mydict[fname] = difinition
+    line = f.readline()
+f.close()
 
 #　ファイルの読み込み
-mystr = f2.read()
-for k, v in dic.items():
+TXT = open(IN, "r")
+mystr = TXT.read()
+
+
+for k, v in mydict.items():
     mystr = mystr.replace(k, v)
 
 print(mystr)
