@@ -56,7 +56,7 @@ if [ $L_NUM -ge 400000 ]; then
   seqkit sample -n 100000 $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop_.fasta
 else
   cat $PREFIX.trimmed.porechop.fasta > $PREFIX.trimmed.porechop_.fasta
-  echo $(date "+%Y/%m/%d %H:%M:%S") Numbers of reads is under 100,000
+  echo $(date "+%Y/%m/%d %H:%M:%S") Numbers of reads is under 100000
 fi
 
 
@@ -69,10 +69,10 @@ QUERY=$home_path/$PREFIX/$PREFIX.trimmed.porechop_.fasta
 PROGRAM=blastn
 DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
 mkdir $DIR; cd $DIR
-perl /home/t16965tw/github/NPP/scripts/q_blast.pl $QUERY $DB -program $PROGRAM -evalue 5 -max_target_seqs 1 -outfmt 6 -num_threads 1 -nseq 2000
+perl /home/t16965tw/github/NPP/scripts/q_blast.pl $QUERY $DB -program $PROGRAM -evalue 5 -max_target_seqs 1 -outfmt 6 -num_threads 1 -nseq 5000
 
 ## qsubの実行
-#for i in *.sh; do qsub $i; done
+for i in *.sh; do qsub $i; done
 
 echo $(date "+%Y/%m/%d %H:%M:%S") Done
 
