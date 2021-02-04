@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 #%matplotlib inline
 import seaborn as sns
 
-File1='rename.txt'
-File2='all.fasta-header'
+File1 = 'rename.txt'
+File2 = 'BF29.trimmed.porechop_.fasta-header'
+
+PREFIX = sys.argv[1]
 
 # ファイルの読み込み
 df = pd.read_table(File1, header=None)
@@ -31,13 +33,14 @@ df_marge = df_marge.fillna("d__Other; p__Other; c__Other; o__Other; f__Other; g_
 
 df_barplot = df_marge.loc[:,["#OTU ID"]]
 # df_barplot['LEVEL'] = df_barplot['anote'].str.split(pat=';', expand=True)[5]
-df_barplot['B26'] = 1
+df_barplot['query'] = 1
 df_barplot = df_barplot.set_index('#OTU ID')
 # df_barplot.drop('anote', axis=1)
 # #df_barplot = df_barplot.set_index('LEVEL')
 df_barplot = df_barplot.groupby(level=0).sum()
 
 # 書き出し
+df_barplot.columns = ['PREFIX', '#OTU ID']
 df_barplot.to_csv('out-.tsv', sep='\t')
 
 # 各レベルのfigを一括で描画する
