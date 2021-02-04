@@ -69,7 +69,7 @@ QUERY=$home_path/$PREFIX/$PREFIX.trimmed.porechop_.fasta
 PROGRAM=blastn
 DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
 mkdir $DIR; cd $DIR
-perl /home/t16965tw/scripts/tom/q_blast_2020-10-11.pl $QUERY $DB -program $PROGRAM -evalue 5 -max_target_seqs 1 -outfmt 6 -num_threads 1 -nseq 2000
+perl /home/t16965tw/github/NPP/scripts/q_blast.pl $QUERY $DB -program $PROGRAM -evalue 5 -max_target_seqs 1 -outfmt 6 -num_threads 1 -nseq 2000
 
 ## qsubの実行
 #for i in *.sh; do qsub $i; done
