@@ -105,7 +105,7 @@ def make_barplot(FILE, ID, LEVEL):
   
 
 # ファイルの読み込み
-i = '_table-tax_97.txt'
+i = 'out-.tsv'
 dataset =  pd.read_table(i, header=0, index_col=0)
 l_columns = list(dataset.columns)
 
