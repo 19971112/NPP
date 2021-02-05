@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import sys
 
-File1 = 'rename.txt'
-File2 = 'BF29.trimmed.porechop_.fasta-header'
-
 PREFIX = sys.argv[1]
+File1 = 'rename.txt'
+File2 = PREFIX + '.trimmed.porechop_.fasta-header'
+
 
 # ファイルの読み込み
 df = pd.read_table(File1, header=None)
@@ -28,8 +28,7 @@ df2.columns = ['query']
 print(df2.duplicated().value_counts())
 
 df_marge = pd.merge(df_hit, df2, on='query', how='right')
-#df_marge = df_marge.fillna("Unassigned;Unassigned;Unassigned;Unassigned;Unassigned;Unassigned;Unassigned")
-df_marge = df_marge.fillna("d__Other; p__Other; c__Other; o__Other; f__Other; g__Other; s__Other")
+df_marge = df_marge.fillna("Unknown;Unknown;Unknown;Unknown;Unknown;Unknown;Unknown")
 
 
 df_barplot = df_marge.loc[:,["#OTU ID"]]
@@ -115,5 +114,5 @@ l_columns = list(dataset.columns)
 
 # 全てのリストを作成する
 for ii in l_columns:
-    for iii in range(6):
+    for iii in range(7):
         make_barplot(i, ii , iii)
