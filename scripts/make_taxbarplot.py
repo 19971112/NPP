@@ -86,7 +86,7 @@ def make_barplot(FILE, ID, LEVEL):
         plot_dataset[col] = round(100 * dataset[col] / dataset[col].sum(), 1)
     
     # LEVEL番号と対応する階級を置換する
-    dic = {0:"domain", 1:"phylum", 2:"class", 3:"order", 4:"family", 5:"genus"}
+    dic = {0:"domain", 1:"phylum", 2:"class", 3:"order", 4:"family", 5:"genus", 6:"species"}
     LEVEL_name = dic[LEVEL]
     
     # グラフのプロット
