@@ -8,7 +8,7 @@ import sys
 
 PREFIX = sys.argv[1]
 File1 = 'rename.txt'
-File2 = PREFIX + '.trimmed.porechop_.fasta'
+File2 = PREFIX + '.trimmed.porechop_.fasta-header'
 
 
 # ファイルの読み込み
