@@ -4,6 +4,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 #%matplotlib inline
 import seaborn as sns
+import sys
 
 File1 = 'rename.txt'
 File2 = 'BF29.trimmed.porechop_.fasta-header'
