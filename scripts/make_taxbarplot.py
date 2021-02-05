@@ -40,7 +40,7 @@ df_barplot = df_barplot.set_index('#OTU ID')
 df_barplot = df_barplot.groupby(level=0).sum()
 
 # 書き出し
-df_barplot.columns = ['PREFIX', '#OTU ID']
+df_barplot.columns = [PREFIX, '#OTU ID']
 df_barplot.to_csv('out-.tsv', sep='\t')
 
 # 各レベルのfigを一括で描画する
