@@ -28,18 +28,16 @@ df2.columns = ['query']
 print(df2.duplicated().value_counts())
 
 df_marge = pd.merge(df_hit, df2, on='query', how='right')
-df_marge = df_marge.fillna("Unknown;Unknown;Unknown;Unknown;Unknown;Unknown;Unknown")
-
+df_marge = df_marge.fillna("d__Other; p__Other; c__Other; o__Other; f__Other; g__Other; s__Other")
 
 df_barplot = df_marge.loc[:,["#OTU ID"]]
 # df_barplot['LEVEL'] = df_barplot['anote'].str.split(pat=';', expand=True)[5]
-df_barplot['query'] = 1
+df_barplot[PREFIX] = 1
 df_barplot = df_barplot.set_index('#OTU ID')
 # df_barplot.drop('anote', axis=1)
 # #df_barplot = df_barplot.set_index('LEVEL')
 df_barplot = df_barplot.groupby(level=0).sum()
 
 # 書き出し
-df_barplot.columns = [PREFIX, '#OTU ID']
 file_name = PREFIX + '_tax.tsv'
 df_barplot.to_csv(file_name, sep='\t')
