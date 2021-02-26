@@ -20,14 +20,14 @@ identity = 85
 df_hit = df[df[2] > identity]
 df_hit = df_hit.loc[:,[1,0]]
 df_hit = df_hit[~df_hit.duplicated()]
-df_hit.columns = ['query', '#OTU ID']
+df_hit.columns = [PREFIX, '#OTU ID']
 print(df_hit.duplicated().value_counts())
 
 df2 = pd.read_table(File2, usecols=[0], header=None)
-df2.columns = ['query']
+df2.columns = [PREFIX]
 print(df2.duplicated().value_counts())
 
-df_marge = pd.merge(df_hit, df2, on='query', how='right')
+df_marge = pd.merge(df_hit, df2, on=PREFIX, how='right')
 df_marge = df_marge.fillna("d__Other; p__Other; c__Other; o__Other; f__Other; g__Other; s__Other")
 
 df_barplot = df_marge.loc[:,["#OTU ID"]]
