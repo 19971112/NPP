@@ -3,13 +3,12 @@ import glob
 import sys
 import textwrap
 
-PATH = sys.argv［1］
-DIRS = glob.glob(PATH)
+data_path = sys.argv［1］
+work_path = sys.argv［2］
+data_dirs = glob.glob(data_path)
 
-txt1 = 'aaaa
-bbbb'
 
-TXT1 = """\
+original_script1 = """\
 #PBS -q small
 #PBS -l ncpus=1
 #PBS -V
@@ -18,8 +17,8 @@ TXT1 = """\
 cd ${PBS_O_WORKDIR}
 
 N_THREADS='1'
-PATH1='/home/t16965tw/github/NPP/analysis/2021-02-01'
-PATH2='/home/t16965tw/github/NPP/data/nanopore_16S/BF29'
+PATH1='$working_dir'
+PATH2='$data_dir'
 
 
 # pathの設定
@@ -90,5 +89,68 @@ for i in *.sh; do qsub $i; done
 echo $(date "+%Y/%m/%d %H:%M:%S") Done
 """
 
-for dir_name in DIRS:
+original_script2 = """\
+#PBS -q medium
+#PBS -l ncpus=1
+#PBS -V
+
+cd ${PBS_O_WORKDIR}
+
+N_THREADS='1'
+PATH1='$working_dir'
+PATH2='$data_dir'
+
+home_path=$PATH1
+dir_path=$PATH2
+PREFIX=$(basename $dir_path)
+
+cd $PREFIX
+
+DB=/home/t16965tw/data/blastDB/SILVA_138_SSURef_NR99_tax_silva/SILVA_138_SSURef_NR99_tax_silva.fasta
+QUERY=$home_path/$PREFIX/$PREFIX.trimmed.porechop_.fasta
+PROGRAM=blastn
+DIR=$(basename $QUERY .fna).$(basename $DB .fasta).$PROGRAM
+
+cd $DIR
+
+# blastが終了したら
+OUT=$PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta).txt
+cat *.bl > $OUT
+grep "^>" $QUERY | perl -pe 's/(>(\S+) (.+))/$2\t$1/;' | sort > $QUERY-header
+cp $OUT $QUERY-header ..
+cd ..
+
+# Extracting data from BLAST databases with _blastdbcmd_
+SEQ=$PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta).fasta
+grep -v '#' $OUT | awk '{print $2}' | sort -u | blastdbcmd -db $DB -entry_batch - > $SEQ
+
+# Create BLAST output with annotation
+echo; echo $OUT; echo $SEQ
+sort -k2,2 $OUT > $OUT-sorted
+grep "^>" $SEQ | perl -pe 's/(>(\S+) (.+))/$2\t$1/;' > $SEQ-header
+join -1 2 -2 1 -t "$(printf '\011')" $OUT-sorted $SEQ-header | sort -k2,2 > file_join_1.txt
+grep "^>" $QUERY | perl -pe 's/(>(\S+) (.+))/$2\t$1/;' | sort > $QUERY-header
+
+# ファイル名の変換
+python /home/t16965tw/github/NPP/scripts/tools/rename.py /home/t16965tw/github/NPP/data/database/SILVA_138_Taxonomy.txt file_join_1.txt > rename_$PREFIX.txt
+
+python /home/t16965tw/github/NPP/scripts/make_taxbarplot.py $PREFIX
+"""
+
+for dir_name in data_dirs:
   file_name = 'nanopore_16S_1_' + dir_name　+ '.job'
+  dir_path = data_path + dir_name
+  custom_script = original_script1.replace("$working_dir", work_path)
+  custom_script = custom_script.replace("$data_dir", dir_path)
+  file = open(file_name, 'w')
+  file.write(custom_script)  # 何も書き込まなくてファイルは作成されました
+  file.close()
+
+for dir_name in data_dirs:
+  file_name = 'nanopore_16S_2_' + dir_name　+ '.job'
+  dir_path = data_path + dir_name
+  custom_script = original_script2.replace("$working_dir", work_path)
+  custom_script = custom_script.replace("$data_dir", dir_path)
+  file = open(file_name, 'w')
+  file.write(custom_script)  # 何も書き込まなくてファイルは作成されました
+  file.close()
