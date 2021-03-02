@@ -137,7 +137,7 @@ python /home/t16965tw/github/NPP/scripts/make_taxbarplot.py $PREFIX
 """
 
 for dir_name in data_dirs:
-  file_name = 'nanopore_16S_1_' + dir_name　+ '.job'
+  file_name = 'nanopore_16S_1_' + dir_name + '.job'
   dir_path = data_path + dir_name
   custom_script = original_script1.replace("$working_dir", work_path)
   custom_script = custom_script.replace("$data_dir", dir_path)
@@ -146,7 +146,7 @@ for dir_name in data_dirs:
   file.close()
 
 for dir_name in data_dirs:
-  file_name = 'nanopore_16S_2_' + dir_name　+ '.job'
+  file_name = 'nanopore_16S_2_' + dir_name + '.job'
   dir_path = data_path + dir_name
   custom_script = original_script2.replace("$working_dir", work_path)
   custom_script = custom_script.replace("$data_dir", dir_path)
