@@ -5,8 +5,8 @@
 cd ${PBS_O_WORKDIR}
 
 N_THREADS='1'
-PATH1='/home/t16965tw/github/NPP/analysis/2021-02-01'
-PATH2='/home/t16965tw/github/NPP/data/nanopore_16S/BF29'
+PATH1='$working_dir'
+PATH2='$data_dir'
 
 home_path=$PATH1
 dir_path=$PATH2
