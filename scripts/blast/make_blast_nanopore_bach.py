@@ -143,7 +143,7 @@ for dir_name in data_dirs:
   custom_script = original_script1.replace("$working_dir", work_path)
   custom_script = custom_script.replace("$data_dir", dir_path)
   file = open(file_name, 'w')
-  file.write(custom_script)  # 何も書き込まなくてファイルは作成されました
+  file.write(custom_script)
   file.close()
 
 for dir_name in data_dirs:
@@ -152,5 +152,5 @@ for dir_name in data_dirs:
   custom_script = original_script2.replace("$working_dir", work_path)
   custom_script = custom_script.replace("$data_dir", dir_path)
   file = open(file_name, 'w')
-  file.write(custom_script)  # 何も書き込まなくてファイルは作成されました
+  file.write(custom_script)
   file.close()
