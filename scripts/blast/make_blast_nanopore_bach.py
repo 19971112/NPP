@@ -143,7 +143,6 @@ for dir_name in data_dirs:
   custom_script = custom_script.replace("$data_dir", dir_path)
   file = open(file_name, 'w')
   file.write(custom_script)
-  file.close()
 
 for dir_name in data_dirs:
   file_name = 'nanopore_16S_2_' + os.path.basename(dir_name) + '.job'
@@ -152,4 +151,3 @@ for dir_name in data_dirs:
   custom_script = custom_script.replace("$data_dir", dir_path)
   file = open(file_name, 'w')
   file.write(custom_script)
-  file.close()
