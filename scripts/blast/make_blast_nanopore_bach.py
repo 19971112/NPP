@@ -14,6 +14,11 @@ def main():
     file_name = return_file_name(each_dir_path, '1')
     custom_script = return_custum_script(scr1,work_path,each_dir_path)
     make_script_file(file_name,custom_script)
+  
+  for each_dir_path in dirs_path_list:
+    file_name = return_file_name(each_dir_path, '2')
+    custom_script = return_custum_script(scr2,work_path,each_dir_path)
+    make_script_file(file_name,custom_script)
 
     
 def make_script_file(FILE_NAME,SCRIPT_TXT):
