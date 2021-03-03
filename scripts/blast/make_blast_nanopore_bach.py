@@ -19,6 +19,7 @@ def main():
 def make_script_file(FILE_NAME,SCRIPT_TXT):
   file = open(FILE_NAME, 'w')
   file.write(SCRIPT_TXT)
+  file.close()
 
   
 def return_file_name(DIR_PATH, NUMBER):
