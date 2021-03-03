@@ -7,8 +7,8 @@ def main():
   work_path = sys.argv[2]
   dirs_path_list = glob.glob(data_path)
   
-  scr1 = '~/github/NPP/scripts/nanopore_16S_1.sh'
-  scr2 = '~/github/NPP/scripts/nanopore_16S_2.sh'
+  scr1 = '/home/t16965tw/github/NPP/scripts/nanopore_16S_1.sh'
+  scr2 = '/home/t16965tw/github/NPP/scripts/nanopore_16S_2.sh'
   
   for each_dir_path in dirs_path_list:
     file_name = return_file_name(each_dir_path, '1')
