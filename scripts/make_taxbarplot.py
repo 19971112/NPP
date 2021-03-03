@@ -7,8 +7,8 @@ import seaborn as sns
 import sys
 
 PREFIX = sys.argv[1]
-File1 = 'rename_' + PREFIX + '.txt'
-File2 = 'blastn-' + PREFIX + '.trimmed.porechop_-SILVA_138_SSURef_NR99_tax_silva.fasta-header'
+File1 = sys.argv[2]
+File2 = sys.argv[3]
 
 
 # ファイルの読み込み
