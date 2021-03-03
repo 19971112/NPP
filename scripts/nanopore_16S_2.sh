@@ -42,4 +42,4 @@ grep "^>" $QUERY | perl -pe 's/(>(\S+) (.+))/$2\t$1/;' | sort > $QUERY-header
 # ファイル名の変換
 python /home/t16965tw/github/NPP/scripts/tools/rename.py /home/t16965tw/github/NPP/data/database/SILVA_138_Taxonomy.txt file_join_1.txt > rename_$PREFIX.txt
 
-python /home/t16965tw/github/NPP/scripts/make_taxbarplot.py $PREFIX
+python /home/t16965tw/github/NPP/scripts/make_taxbarplot.py $PREFIX rename_$PREFIX.txt $QUERY-header
