@@ -3,8 +3,8 @@ import sys
 import os
 
 def main():
-  data_path = sys.argv[1]
-  work_path = sys.argv[2]
+  data_path = '/home/t16965tw/github/NPP/data/nanopore_16S/*'
+  work_path = '/home/t16965tw/github/NPP/analysis/nanopore_16S'
   dirs_path_list = glob.glob(data_path)
   
   scr1 = '/home/t16965tw/github/NPP/scripts/nanopore_16S_1.sh'
