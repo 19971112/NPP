@@ -11,7 +11,7 @@ def main():
   scr2 = '~/github/NPP/scripts/nanopore_16S_2.sh'
   
   for each_dir_path in dirs_path_list:
-    file_name = return_file_name(each_dir_path,1)
+    file_name = return_file_name(each_dir_path, '1')
     custom_script = return_custum_script(scr1,work_path)
     make_script_file(file_name,custom_script,each_dir_path)
 
