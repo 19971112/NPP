@@ -29,13 +29,13 @@ print(df2.duplicated().value_counts())
 
 
 df_marge = pd.merge(df_hit, df2, on='query', how='right')
-df_marge = df_marge.fillna("Unknown;Unknown;Unknown;Unknown;Unknown;Unknown;Unknown")
+df_marge = df_marge.fillna("d__Unassigned;p__Unassigned;c__Unassigned;o__Unassigned;f__Unassigned;g__Unassigned;s__Unassigned")
 print(df_marge.duplicated().value_counts())
 
 
 df_barplot = df_marge.loc[:,["#OTU ID"]]
 # df_barplot['LEVEL'] = df_barplot['anote'].str.split(pat=';', expand=True)[5]
-df_barplot['Wagu'] = 1
+df_barplot[PREFIX] = 1
 df_barplot = df_barplot.set_index('#OTU ID')
 # df_barplot.drop('anote', axis=1)
 # #df_barplot = df_barplot.set_index('LEVEL')
