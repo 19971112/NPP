@@ -40,9 +40,6 @@ join -1 2 -2 1 -t "$(printf '\011')" $OUT-sorted $SEQ-header | sort -k2,2 > file
 grep "^>" $QUERY | perl -pe 's/(>(\S+) (.+))/$2\t$1/;' | sort > $QUERY-header
 join -1 2 -2 1 -t "$(printf '\011')" file_join_1.txt $QUERY-header > file_join_2.txt
 
-echo -e "query id\tsubject id\t% identity\talignment length\tmismatches\tgap opens\tq. start\tq. end\ts. start\ts. end\tevalue\tbit score\tsubject\tquery" > $PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta)-annotation.txt
-cat file_join_1.txt | perl -pe 's/(UniRef50|UniRef90|UniRef100)_//g;' >> $PROGRAM-$(basename $QUERY .fasta)-$(basename $DB .fasta)-annotation.txt
-
 
 # ファイル名の変換
 python /home/t16965tw/github/NPP/scripts/tools/rename.py /home/t16965tw/github/NPP/data/database/SILVA_138_Taxonomy.txt file_join_1.txt > rename_$PREFIX.txt
