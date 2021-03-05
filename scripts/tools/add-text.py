@@ -18,18 +18,15 @@ pdfmetrics.registerFont(
     )
 )
 
-file = "./word_sample.pdf"
+file = "./20210305_nanopore_tax-barplot.pdf"
 pdf = PdfFileReader(file)
 
-box = ["B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","B11","B12","B13","B14","B15","B16","B17","B18","B19","B20","B21","B22","B23","B24","B25","B26","M1","M2","M3","M4","M5","M6","M7","M8","M9","M10","M11","M12","M13","M14","M15","M16","M17","M18","M19","M20","M21","M22","M23","MB1","MB2","MB3","MB4","MB5","MB6","MB7","MB8","MB9","MB10","MB11","MB12","MB13","MB14","MB15"]
-box = ["B1"]
+box = ["BF_05","BF_06","BF_07","BF_08","BF_09","BF_10","BF_11","BF_12","BF_14","BF_15","BF_16","BF_17","BF_18","BF_19","BF_20","BF_23","BF_24","BF_29","BF_34","BF_38","BF_39","BF_40"]
 
 page_count = 0
 
 
 for each_page in box:
-  
-    
     page = pdf.getPage(page_count)
     
     input_txt = box[page_count]
