@@ -37,10 +37,10 @@ for each_page in box:
     packet = io.BytesIO()
     can = canvas.Canvas(packet, pagesize=A4)
 
-    font_size = 20
+    font_size = 25
     can.setFont('Helvetica', font_size)
     can.setFillColor(Color(0, 0, 0, alpha=1))
-    can.drawString(15,700,input_txt)
+    can.drawString(500,810,input_txt)
 
     can.save()
     packet.seek(0)
